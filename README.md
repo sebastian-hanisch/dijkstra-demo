@@ -1,5 +1,7 @@
 # Dijkstra – Kosten korrekt, aber blind in alle Richtungen – Streamlit-Demo
 
+**[→ Demo live ausprobieren](https://sebastianhanisch-dijkstra-demo.streamlit.app/)**
+
 Zweites Stück der **Kürzeste-Wege-Linie** der "Konzepte"-Reihe für die Website "Sebastian Hanisch – Operations Research und Machine Learning", Fortsetzung der [Breitensuche-Demo](../bfs-demo):
 anders als die Fall-Demos im Portfolio (ein Anwendungsfall, mehrere Verfahren im Vergleich) zeigt diese Demo **ein** Verfahren – den **Dijkstra-Algorithmus** – an einem wachsenden Beispiel.
 Die Breitensuche zählte Kanten, Dijkstra zählt Kosten: er legt die Knoten nacheinander **endgültig fest**, immer den mit den kleinsten bisher bekannten Kosten, und verbessert dabei seine Nachbarn.
