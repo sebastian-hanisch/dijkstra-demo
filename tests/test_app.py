@@ -159,8 +159,8 @@ def _calls(src, name):
 
 def test_every_plotly_chart_has_an_explicit_key_and_axes_are_locked():
     calls = _calls(APP.read_text(encoding="utf-8"), "plotly_chart")
-    assert len(calls) == 7 and all(re.search(r'key="[a-z_]+"', c) for c in calls), calls
-    keys = [re.search(r'key="([a-z_]+)"', c).group(1) for c in calls]
+    assert len(calls) == 7 and all(re.search(r'key=f?"[a-z_]+(_\{\w+\})?"', c) for c in calls), calls
+    keys = [re.search(r'key=f?"([a-z_]+?)(?:_\{\w+\})?"', c).group(1) for c in calls]
     assert len(set(keys)) == 6 and keys.count("net_chart") == 2                          # das Netz wird für kleine und große Netze getrennt gezeichnet, zur Laufzeit läuft nur eines
     viz = (ROOT / "dj_visualization.py").read_text(encoding="utf-8")
     assert "fixedrange=True" in viz and viz.count("_base(fig") >= 6
@@ -168,3 +168,11 @@ def test_every_plotly_chart_has_an_explicit_key_and_axes_are_locked():
 
 def test_app_text_has_no_links_to_repository_files():
     assert not re.search(r"\]\(\w+\.py\)", APP.read_text(encoding="utf-8"))
+
+
+def test_play_runs_through_all_frames_without_duplicate_chart_keys():
+    """Beim Abspielen entstehen in einem Lauf mehrere Diagramme mit demselben Namen - die Schlüssel tragen deshalb den Schritt (Regression: StreamlitDuplicateElementKey bei mehr als einem Bild)."""
+    at = _run()
+    [b for b in at.button if b.label == "▶️ Abspielen"][0].click()
+    at.run()
+    assert not at.exception, [e.value for e in at.exception]

@@ -210,7 +210,7 @@ view_slot = st.empty()
 def _render(current):
     with view_slot.container():
         if small:
-            st.plotly_chart(build_network(net, a, current, ("dijkstra",) + tuple(routes_shown), height=400), width="stretch", key="net_chart")
+            st.plotly_chart(build_network(net, a, current, ("dijkstra",) + tuple(routes_shown), height=400), width="stretch", key=f"net_chart_{current}")
             state = ev.table_state(a, current)
             df = pd.DataFrame(state["rows"])
             changed = df.pop("geändert")
@@ -226,9 +226,9 @@ def _render(current):
                 t2.markdown(f"🚨 **Alarm:** {name} war schon mit {old:g} festgelegt, über eine negative Kante wäre {new:g} möglich gewesen.")
         else:
             c1, c2 = st.columns([3, 2])
-            c1.plotly_chart(build_network(net, a, current, ("dijkstra",) + tuple(routes_shown)), width="stretch", key="net_chart")
+            c1.plotly_chart(build_network(net, a, current, ("dijkstra",) + tuple(routes_shown)), width="stretch", key=f"net_chart_{current}")
             c2.markdown("**Knoten in der Warteschlange nach jeder Festlegung** (die Front)")
-            c2.plotly_chart(build_front(res.front, current), width="stretch", key="front_chart")
+            c2.plotly_chart(build_front(res.front, current), width="stretch", key=f"front_chart_{current}")
             c2.caption(f"Nach {current} von {last_step} Festlegungen; größte Front: {m['front_max']} Knoten.")
 
 
