@@ -23,6 +23,7 @@ from dj_presets import (
     init_session_state_defaults,
     load_permalink_settings,
     randomize_seed,
+    seed_widget,
     sync_query_params,
 )
 from dj_queues import QUEUE_LABELS
@@ -120,6 +121,7 @@ with st.sidebar:
              "Alle Kosten sind ganze Zahlen (Meter, Minuten, Euro).",
     )
     if net_key in C.GRID_NETS:
+        seed_widget("side_slider")
         side = st.slider(
             "Kreuzungen je Seite" if net_key == "city" else "Zellen je Seite", *bounds("side_slider"), key="side_slider",
             help="Größe des Netzes (Seite × Seite). Beim Stadtnetz (Reichweite 2.3, Streuung 1.0) ist der Median-Umweg der Breitensuche-Route bei 6 / 10 / 20 / 30 / 40 Kreuzungen je Seite 10 % / 22 % / 28 % / 28 % / 30 %; "
@@ -129,17 +131,20 @@ with st.sidebar:
     else:
         side = int(st.session_state.get(KEPT["side_slider"], C.DEFAULT_SIDE))
     if net_key == "city":
+        seed_widget("reach_slider")
         reach = st.slider(
             "Reichweite der Straßen [Blocklängen]", *bounds("reach_slider"), key="reach_slider", step=0.1,
             help="Wie weit eine Straße zwischen zwei Kreuzungen reichen darf (1 = nur Nachbarn im Raster, größer = auch längere Verbindungen). Median-Umweg der Breitensuche-Route bei 1.0 / 1.5 / 2.3 / 3.2: 7 % / 18 % / 28 % / 34 %; "
                  "Dijkstra ist davon unberührt (Umweg 0), sein festgelegter Anteil bleibt bei rund der Hälfte.",
         )
         st.session_state[KEPT["reach_slider"]] = reach
+        seed_widget("spread_slider")
         spread = st.slider(
             "Streuung der Kosten", *bounds("spread_slider"), key="spread_slider", step=0.25,
             help="Kosten einer Straße = Länge × (1 + Streuung × Zufall), gerundet auf ganze Meter: Ampeln, Steigung, Belag. Median-Umweg der Breitensuche-Route bei 0 / 0.5 / 1 / 2 / 3: 11 % / 18 % / 28 % / 47 % / 62 %.",
         )
         st.session_state[KEPT["spread_slider"]] = spread
+        seed_widget("blocked_slider")
         blocked = st.slider(
             "Gesperrte Straßen [%]", *bounds("blocked_slider"), key="blocked_slider",
             help="Anteil der Straßen, die gesperrt sind (das Netz bleibt zusammenhängend). Median-Umweg der Breitensuche-Route bei 0 / 20 / 40 / 60 %: 30 % / 28 % / 22 % / 15 %.",
@@ -150,6 +155,7 @@ with st.sidebar:
         spread = float(st.session_state.get(KEPT["spread_slider"], C.DEFAULT_SPREAD))
         blocked = int(st.session_state.get(KEPT["blocked_slider"], C.DEFAULT_BLOCKED))
     if net_key == "maze":
+        seed_widget("walls_slider")
         walls = st.slider(
             "Wände [%]", *bounds("walls_slider"), key="walls_slider",
             help="Anteil der Zellen, die Wand sind (bei zu vielen Wänden werden einzelne wieder geöffnet, damit Start und Ziel verbunden bleiben). Jeder Schritt kostet dasselbe: Dijkstra und Breitensuche finden dieselbe Route.",
@@ -158,6 +164,7 @@ with st.sidebar:
     else:
         walls = int(st.session_state.get(KEPT["walls_slider"], C.DEFAULT_WALLS))
     if net_key in C.GRID_NETS:
+        seed_widget("seed_input")
         seed = st.number_input("Zufalls-Seed", *bounds("seed_input"), key="seed_input", step=1)
         st.session_state[KEPT["seed_input"]] = seed
         st.button("🎲 Neues Netz generieren", width="stretch", on_click=randomize_seed, help="Würfelt einen neuen Zufalls-Seed für das Netz.")
