@@ -8,13 +8,13 @@ Die Breitensuche zählte Kanten, Dijkstra zählt Kosten: er legt die Knoten nach
 Jeder festgelegte Knoten steht damit am Ende seiner kürzesten Route – **solange keine Kante negative Kosten hat**. Der Preis: Dijkstra kennt die Richtung des Ziels nicht und legt alles fest, was näher am Start liegt als das Ziel.
 
 **Einordnung in die Reihe (die Kanten des Graphen):** Dijkstra löst die Schwäche der Wurzel (Kosten werden ignoriert) und bringt eigene mit, die die nächsten Stücke aufgreifen:
-die Suche in alle Richtungen (→ Bidirektionale Suche, A\*), negative Kanten (→ Bellman-Ford), jede Anfrage von vorn (→ Contraction Hierarchies). Bisher gebaut: die Wurzel und dieses Stück.
+die Suche in alle Richtungen (→ Bidirektionale Suche, A\*), negative Kanten (→ Bellman-Ford), jede Anfrage von vorn (→ Contraction Hierarchies). Alle diese Stücke sind inzwischen gebaut.
 ```
 bfs-demo (Wurzel: Kanten zählen, nicht Kosten)                              [gebaut]
   └─ dijkstra-demo (Kosten korrekt, blind in alle Richtungen)               [dieses Stück]
-       ├─ Bidirektionale Suche → Contraction Hierarchies                    [nicht gebaut]
-       ├─ Bellman-Ford + Floyd-Warshall → Johnson (Konvergenz: Umgewichtung) [nicht gebaut]
-       └─ Mehrkriterien-Routing (Zeit gegen CO₂, Pareto)                    [nicht gebaut]
+       ├─ Bidirektionale Suche → Contraction Hierarchies                    [gebaut]
+       ├─ Bellman-Ford + Floyd-Warshall → Johnson (Konvergenz: Umgewichtung) [gebaut]
+       └─ Mehrkriterien-Routing (Zeit gegen CO₂, Pareto)                    [gebaut]
 A* steht einmal in der Baumsuche-Linie und wird von hier aus nur verlinkt.
 ```
 
@@ -46,7 +46,7 @@ Aus den Büchern stammt nur die Idee der Beispiele; Text, Abbildungen, Code, Gra
 | Warteschlangen | ✅ fünf Umsetzungen, dieselben Entfernungen: **Feld**, **Binärheap** (Decrease-Key), **faul** (`heapq`), **Dial-Eimer**, **Fibonacci-Heap**. Jeder Knoten wird einmal eingefügt, etwa jeder zweite bekommt einen Decrease-Key. Fibonacci braucht rund 17 % weniger Schlüsselvergleiche als der Binärheap, ist aber in dieser Python-Umsetzung nicht spürbar schneller (Laufzeiten sind Messwerte, nicht getestet); das Feld wächst hier wie n hoch 1.5 (Knoten mal Front), die Heaps kaum stärker als linear |
 | Rohdaten-Falle | ⚠️ ein Netz mit Parallelkanten: Mehrfachkanten-Graph und bereinigte Daten liefern 3; ein Wörterbuch je Knotenpaar 3 oder **7**, je nach Reihenfolge der Rohdaten |
 
-Die Breitensuche als Vergleich ist die aus der Breitensuche-Demo; die Bellman-Ford-Referenz für negative Kanten ist nur ein Messwerkzeug (das Verfahren selbst ist ein späteres Stück der Linie).
+Die Breitensuche als Vergleich ist die aus der Breitensuche-Demo; die Bellman-Ford-Referenz für negative Kanten ist nur ein Messwerkzeug (das Verfahren selbst ist ein eigenes Stück der Linie).
 
 ## Was die Demo zeigt
 
@@ -78,3 +78,7 @@ streamlit run app.py
 ```
 
 Tests: `pip install -r requirements-dev.txt` und `python -m pytest tests/`. Jede Zahl in Hilfetexten, Presets und Tabellen ist in `tests/test_claims.py` belegt; die Kreuzprobe von Dijkstra läuft gegen networkx (alle Warteschlangen, auch mit negativen Kanten gegen Bellman-Ford).
+
+---
+
+Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zur Reihe: [Kürzeste Wege: von der Breitensuche bis RAPTOR](https://sebastianhanisch.net/konzepte-kuerzeste-wege.html).

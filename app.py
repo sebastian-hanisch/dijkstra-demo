@@ -276,7 +276,7 @@ else:
     code = ev.verdict(a)
     if code == "negative_wrong":
         st.warning(f"⚠️ Negative Kante: Dijkstra findet {_cost(net, m['cost_dijkstra'])}, die beste Route kostet {_cost(net, m['cost_bellman_ford'])} - **{_pct(m['overpay'])} zu viel**. "
-                   f"Der Alarm zeigt, wo es schiefging: ein Knoten war schon festgelegt und hätte über die negative Kante noch billiger erreicht werden können; die Festlegung war nicht endgültig. Die Referenz ist Bellman-Ford (nächstes Stück der Linie).")
+                   f"Der Alarm zeigt, wo es schiefging: ein Knoten war schon festgelegt und hätte über die negative Kante noch billiger erreicht werden können; die Festlegung war nicht endgültig. Die Referenz ist Bellman-Ford (eigene Demo der Linie).")
     elif code == "negative_ok":
         st.info("ℹ️ Das Netz hat negative Kanten, Dijkstra liegt hier aber zufällig richtig - keine Garantie.")
     elif code == "unweighted":
@@ -373,7 +373,7 @@ if st.session_state.get("negative_on"):
     st.plotly_chart(build_negative(nrows), width="stretch", key="negative_chart")
     r2 = next(r for r in nrows if abs(r["fraction"] - 0.02) < 1e-9)
     st.caption(f"Je Anteil 200 zufällige gerichtete Netze (40 Knoten, 120 Kanten; 5 feste Sweep-Datensätze). Ohne negative Kanten ist Dijkstra immer richtig. Schon bei **2 % negativer Kanten** liefert er in {r2['wrong'] / r2['total']:.0%} der Netze ({r2['wrong']} von {r2['total']}) falsche Kosten "
-               f"(in {r2['cycle'] / r2['total']:.0%} gibt es sogar einen negativen Zyklus - dann existiert keine kürzeste Route). Mit vielen negativen Kanten überwiegen die Zyklen. Die Referenz ist Bellman-Ford, das nächste Stück der Linie.")
+               f"(in {r2['cycle'] / r2['total']:.0%} gibt es sogar einen negativen Zyklus - dann existiert keine kürzeste Route). Mit vielen negativen Kanten überwiegen die Zyklen. Die Referenz ist Bellman-Ford (eigene Demo der Linie).")
 
 st.markdown("---")
 
@@ -397,13 +397,13 @@ st.markdown(
     """
 | Annahme | Was passiert, wenn sie verletzt ist | Wer setzt an |
 |---|---|---|
-| **Keine negativen Kosten** | Tauschnetz: Dijkstra findet 16 Euro, die beste Route kostet 13 (**23 % zu viel**), der Alarm zeigt den Bruch der Festlegung. In Zufallsnetzen mit 2 % negativer Kanten liefert er in etwa jedem fünften Netz falsche Kosten. | **Bellman-Ford** (nächstes Stück der Linie) |
+| **Keine negativen Kosten** | Tauschnetz: Dijkstra findet 16 Euro, die beste Route kostet 13 (**23 % zu viel**), der Alarm zeigt den Bruch der Festlegung. In Zufallsnetzen mit 2 % negativer Kanten liefert er in etwa jedem fünften Netz falsche Kosten. | **Bellman-Ford** (eigene Demo der Linie) |
 | **Die Suche darf in alle Richtungen gleich weit laufen** | Bei zufälligen Paaren legt Dijkstra im Median rund **die Hälfte** des Netzes fest (Stadtnetz 51 %, Toronto 51 %, bei einem Zehntel der Paare über 85 %); die Zahl der festgelegten Knoten wächst mit der Entfernung im Quadrat (Steigung 2.08). | **Bidirektionale Suche** (von beiden Enden), **A\\*** (Baumsuche-Linie) |
 | **Jede Anfrage beginnt von vorn** | Toronto: für **ein** Paar (Route 891 m) werden 2 513 von 5 072 Knoten festgelegt; die nächste Anfrage fängt wieder bei null an. | **Contraction Hierarchies**: erst vorrechnen, dann blitzschnell fragen |
 | **Ein Start genügt** | Dijkstra liefert die kürzesten Wege von **einem** Start; für alle Paare läuft er n-mal. | **Floyd-Warshall**, **Johnson** (Konvergenz mit Bellman-Ford) |
 """
 )
-st.caption("Die Nachbarn der Kürzeste-Wege-Linie (noch nicht gebaut): Bidirektionale Suche, Contraction Hierarchies, Bellman-Ford, Floyd-Warshall, Johnson und Mehrkriterien-Routing. Bereits gebaut: die Wurzel, die Breitensuche-Demo. A\\* steht in der Baumsuche-Linie.")
+st.caption("Die Nachbarn der Kürzeste-Wege-Linie (inzwischen alle gebaut): Bidirektionale Suche, Contraction Hierarchies, Bellman-Ford, Floyd-Warshall, Johnson und Mehrkriterien-Routing. Ebenfalls gebaut: die Wurzel, die Breitensuche-Demo. A\\* steht in der Baumsuche-Linie.")
 
 st.markdown("---")
 
@@ -437,6 +437,6 @@ st.markdown("---")
 
 st.caption(
     "Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – "
-    "Operations Research und Machine Learning. Interesse an einer maßgeschneiderten Lösung für "
-    "Ihr Unternehmen? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html)"
+    "Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). "
+    "Mehr zur Reihe: [Kürzeste Wege: von der Breitensuche bis RAPTOR](https://sebastianhanisch.net/konzepte-kuerzeste-wege.html)."
 )
