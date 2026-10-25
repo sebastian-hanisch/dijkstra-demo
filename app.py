@@ -81,6 +81,21 @@ Weil er immer den billigsten Knoten nimmt, steht jeder festgelegte Knoten schon 
 was näher am Start liegt als das Ziel. Diese Demo zeigt die Korrektheit und ihren Preis - und zwei Fallen: **negative Kanten** und **Rohdaten** mit Parallelkanten.
 """
 )
+
+# erklaerseite:einfach:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/dijkstra-erklaert.json, nicht von Hand ändern)
+with st.expander("💬 In einfachen Worten"):
+    st.markdown(
+        """
+Stellen Sie sich ein Liefernetz vor: ein Lager, mehrere Orte und ein Kunde, dazwischen Strecken mit unterschiedlichen Fahrzeiten. Gesucht ist die Route mit den geringsten Gesamtkosten, nicht die mit den wenigsten Strecken. **Dijkstra** löst das so: Er führt für jeden Ort die bisher beste bekannte Entfernung vom Start. Dann legt er immer den noch offenen Ort mit der kleinsten Entfernung **endgültig fest** und prüft, ob seine Nachbarn über ihn günstiger zu erreichen sind.
+
+Endgültig darf er den Ort festlegen, weil jede andere Route zu ihm über einen noch weiter entfernten Ort führen müsste und eine Route nicht billiger wird, wenn man eine Strecke anhängt. Das stimmt nur, solange keine Strecke **negative Kosten** hat, etwa eine Rückzahlung. Dann kann ein schon festgelegter Ort doch noch günstiger werden, und Dijkstra liefert eine zu teure Route. Der Alarm in der Demo zeigt, wo das passiert.
+
+Der Preis: Dijkstra kennt die Richtung des Ziels nicht. Er legt alle Orte fest, die näher am Start liegen als das Ziel, auch die in der falschen Richtung.
+
+[Ausführlich und verständlich erklärt, mit Fachteil](https://sebastianhanisch.net/dijkstra-erklaert.html)
+        """
+    )
+# erklaerseite:einfach:end
 st.caption(
     "Anders als die Fall-Demos im Portfolio, die an einem Anwendungsfall mehrere Verfahren vergleichen, zeigt diese Demo - zweites Stück der Kürzeste-Wege-Linie der \"Konzepte\"-Reihe, Fortsetzung der Breitensuche-Demo - **ein** Verfahren an einem wachsenden Beispiel. "
     "Die Schwächen von Dijkstra sind die Ansatzpunkte der nächsten Stücke: die Suche in alle Richtungen (**Bidirektionale Suche**, **A\\***), die negativen Kanten (**Bellman-Ford**), jede Anfrage von vorn (**Contraction Hierarchies**). "
@@ -408,6 +423,28 @@ st.caption("Die Nachbarn der Kürzeste-Wege-Linie (inzwischen alle gebaut): Bidi
 st.markdown("---")
 
 with st.expander("📐 Mathematische Formulierung"):
+    # erklaerseite:lesehilfe:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/dijkstra-erklaert.json, nicht von Hand ändern)
+    st.markdown(
+        r"""
+**Lesehilfe.** Gegeben sind ein gerichteter Graph mit nichtnegativen Kosten an den Kanten und ein Startknoten. Gesucht sind die Kosten einer billigsten Route vom Start zu jedem Knoten, bzw. zum gewählten Ziel.
+
+| Symbol | Bedeutung |
+|---|---|
+| $G=(V,E)$ | Graph mit Knotenmenge $V$ (Orte) und Kantenmenge $E$ (Strecken) |
+| $c_e$, $c_{uv}$ | Kosten einer Kante bzw. der Kante von $u$ nach $v$ (Fahrminuten, Meter, Euro) |
+| $s$ | Startknoten |
+| $\delta(v)$ | Kosten einer billigsten Route von $s$ nach $v$ (der wahre Wert) |
+| $d(v)$ | vorläufige Entfernung von $s$ nach $v$ (die Notiz des Verfahrens, sie kann sich noch verbessern) |
+| $S$ | Menge der endgültig festgelegten Knoten |
+| $u$, $y$ | gerade festgelegter Knoten bzw. erster Knoten außerhalb von $S$ auf einer billigsten Route zu $u$ |
+| $\lvert V\rvert$, $\lvert E\rvert$ | Zahl der Knoten bzw. Kanten |
+| $C$ | größte Kantenkosten (nur für die Dial-Eimer-Warteschlange) |
+| $L$ | Kostenradius um den Start (Experiment zur Suchfläche) |
+
+[Schritt für Schritt erklärt, mit Herleitung und Literatur](https://sebastianhanisch.net/dijkstra-erklaert.html#fachleute)
+        """
+    )
+    # erklaerseite:lesehilfe:end
     st.markdown(
         r"""
 **Modell.** Gerichteter Graph $G=(V,E)$ mit Kosten $c_e \ge 0$ (ganzzahlig in dieser Demo); Start $s$; $\delta(v)$ = Kosten einer billigsten Route von $s$ nach $v$.
