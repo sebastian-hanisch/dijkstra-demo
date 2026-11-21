@@ -131,7 +131,7 @@ def build_queues(rows, height=340):
     for q in ("array", "binary", "fibonacci", "dial"):
         sel = [r for r in rows if r["queue"] == q]
         fig.add_trace(go.Scatter(x=[r["n"] for r in sel], y=[r["work"] for r in sel], mode="lines+markers", name=q, line=dict(color=QUEUE_COLORS[q])))
-    fig.update_layout(xaxis=dict(title="Knoten im Netz", type="log"), yaxis=dict(title="Schlüsselvergleiche (Dial: Eimerschritte)", type="log"))
+    fig.update_layout(xaxis=dict(title="Knoten im Netz", type="log"), yaxis=dict(title="Schlüsselvergleiche (Dial: Bucket-Schritte)", type="log"))
     return _base(fig, height)
 
 

@@ -356,7 +356,7 @@ if st.session_state.get("radius_on"):
 st.markdown("---")
 
 st.subheader("🔬 Die Warteschlange: fünf Umsetzungen, dasselbe Ergebnis")
-if st.button("Feld, Binärheap, faulen Heap, Dial-Eimer und Fibonacci-Heap vergleichen (dauert wenige Sekunden)", key="queue_start"):
+if st.button("Feld, Binärheap, faulen Heap, Dial-Buckets und Fibonacci-Heap vergleichen (dauert wenige Sekunden)", key="queue_start"):
     st.session_state["queue_on"] = True
 if st.session_state.get("queue_on"):
     with st.spinner("Lasse fünf Warteschlangen auf vier Netzen laufen..."):
@@ -365,7 +365,7 @@ if st.session_state.get("queue_on"):
     c1, c2 = st.columns([3, 2])
     c1.plotly_chart(build_queues(qrows), width="stretch", key="queue_chart")
     c2.markdown(f"**Größtes Netz: {biggest[0]['n']:,} Kreuzungen, {biggest[0]['m']:,} Kanten**".replace(",", "."))
-    c2.table({"Warteschlange": [QUEUE_LABELS[r["queue"]] for r in biggest], "Vergleiche bzw. Eimerschritte": [f"{r['work']:,}".replace(",", ".") if r["queue"] != "lazy" else "n/a (in C)" for r in biggest],
+    c2.table({"Warteschlange": [QUEUE_LABELS[r["queue"]] for r in biggest], "Vergleiche bzw. Bucket-Schritte": [f"{r['work']:,}".replace(",", ".") if r["queue"] != "lazy" else "n/a (in C)" for r in biggest],
               "Decrease-Keys": [r["decrease_keys"] for r in biggest], "Laufzeit [ms]": [f"{r['ms']:.0f}" for r in biggest]})
     binary = next(r for r in biggest if r["queue"] == "binary")["work"]
     fib = next(r for r in biggest if r["queue"] == "fibonacci")["work"]
@@ -455,7 +455,7 @@ alle Nachbarn $v$: $d(v) \leftarrow \min\big(d(v),\ d(u)+c_{uv}\big)$ (**Relaxat
 **Beweisidee:** angenommen, $d(u) > \delta(u)$ beim Festlegen von $u$. Auf einer billigsten Route zu $u$ gibt es den ersten Knoten $y \notin S$; sein Vorgänger liegt in $S$, also $d(y)=\delta(y)$. Wegen $c_e \ge 0$ ist $\delta(y) \le \delta(u) < d(u)$ -
 dann hätte $y$ vor $u$ gewählt werden müssen. **Bei einer negativen Kante bricht genau der Schritt $\delta(y) \le \delta(u)$**: eine Route kann billiger werden, wenn man Kanten anhängt.
 
-**Aufwand.** Mit einer Warteschlange, die Einfügen, Verkleinern und Entnehmen kann: $|V|$ Einfügungen und Entnahmen, höchstens $|E|$ Verkleinerungen. Feld: $O(|V|^2)$ im schlimmsten Fall (in ebenen Netzen mit einer Front von etwa $\sqrt{|V|}$ eher $|V|^{1,5}$); Binärheap: $O((|V|+|E|)\log|V|)$; Fibonacci-Heap: $O(|E|+|V|\log|V|)$; Dial-Eimer bei ganzzahligen Kosten
+**Aufwand.** Mit einer Warteschlange, die Einfügen, Verkleinern und Entnehmen kann: $|V|$ Einfügungen und Entnahmen, höchstens $|E|$ Verkleinerungen. Feld: $O(|V|^2)$ im schlimmsten Fall (in ebenen Netzen mit einer Front von etwa $\sqrt{|V|}$ eher $|V|^{1,5}$); Binärheap: $O((|V|+|E|)\log|V|)$; Fibonacci-Heap: $O(|E|+|V|\log|V|)$; Dial-Buckets bei ganzzahligen Kosten
 bis $C$: $O(|E|+C|V|)$. Der faule Heap (`heapq`) hat kein Verkleinern, legt dafür bis zu $|E|$ Einträge an: $O(|E|\log|E|)$.
 
 **Festgelegter Anteil.** Beim Abbruch am Ziel $t$ sind genau die Knoten mit $\delta(v) < \delta(t)$ festgelegt (plus einige mit Gleichstand). Für ein zufälliges Ziel ist die Rangzahl von $\delta(t)$ gleichverteilt, der erwartete Anteil also etwa $\tfrac12$.

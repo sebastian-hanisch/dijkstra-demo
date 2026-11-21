@@ -1,5 +1,5 @@
 """Prioritätswarteschlangen für Dijkstra, alle mit denselben Zählern: `pushes` (neue Einträge), `decrease_keys` (Schlüssel eines vorhandenen Knotens gesenkt), `pops` (entnommen),
-`work` (Schlüsselvergleiche; bei Dial: Eimerschritte). Alle liefern bei gleichen Eingaben dieselben Entfernungen - nur der Aufwand unterscheidet sich.
+`work` (Schlüsselvergleiche; bei Dial: Bucket-Schritte). Alle liefern bei gleichen Eingaben dieselben Entfernungen - nur der Aufwand unterscheidet sich.
 
 Schnittstelle: `push_or_decrease(node, key)`, `pop_min() -> (key, node)`, `len(queue)`."""
 
@@ -141,8 +141,8 @@ class LazyHeapQueue(_Counters):
 
 
 class DialQueue(_Counters):
-    """Eimer nach ganzzahligem Schlüssel (Dial 1969): alle lebenden Schlüssel liegen in [aktuell, aktuell + größte Kantenkosten], also reichen C + 1 Eimer im Kreis.
-    Nur für ganzzahlige, nichtnegative Kosten. work = Eimerschritte beim Suchen des nächsten nichtleeren Eimers."""
+    """Buckets nach ganzzahligem Schlüssel (Dial 1969): alle lebenden Schlüssel liegen in [aktuell, aktuell + größte Kantenkosten], also reichen C + 1 Buckets im Kreis.
+    Nur für ganzzahlige, nichtnegative Kosten. work = Bucket-Schritte beim Suchen des nächsten nichtleeren Buckets."""
 
     def __init__(self, n=0, max_weight=1):
         super().__init__()
@@ -315,4 +315,4 @@ class FibonacciQueue(_Counters):
 
 
 QUEUES = {"array": ArrayQueue, "binary": BinaryHeapQueue, "lazy": LazyHeapQueue, "dial": DialQueue, "fibonacci": FibonacciQueue}
-QUEUE_LABELS = {"array": "Feld (lineare Suche)", "binary": "Binärheap (Decrease-Key)", "lazy": "Binärheap, faul (heapq)", "dial": "Dial-Eimer", "fibonacci": "Fibonacci-Heap"}
+QUEUE_LABELS = {"array": "Feld (lineare Suche)", "binary": "Binärheap (Decrease-Key)", "lazy": "Binärheap, faul (heapq)", "dial": "Dial-Buckets", "fibonacci": "Fibonacci-Heap"}

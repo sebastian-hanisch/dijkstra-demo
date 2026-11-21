@@ -152,7 +152,7 @@ def test_queue_matches_a_dict_model_under_random_operations(kind, seed):
 
 
 def test_dial_queue_rejects_non_integer_keys_and_handles_bucket_wraparound():
-    q = QUEUES["dial"](40, 3)                                    # größte Kosten 3 -> vier Eimer im Kreis
+    q = QUEUES["dial"](40, 3)                                    # größte Kosten 3 -> vier Buckets im Kreis
     with pytest.raises(ValueError):
         q.push_or_decrease(1, 1.5)
     q.push_or_decrease(0, 0)

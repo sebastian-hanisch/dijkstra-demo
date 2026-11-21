@@ -1,5 +1,5 @@
 """Die Netze der Demo: kleines Lieferwegenetz und Tauschnetz mit Rückzahlung (eigene Graphen in der Art der Lehrbuch-Beispiele), erzeugtes Stadtnetz, Labyrinth und Toronto Campus (echte OpenStreetMap-Daten).
-Alle Kosten sind ganze Zahlen (Meter, Euro): so laufen alle Warteschlangen, auch die Dial-Eimer, auf denselben Netzen."""
+Alle Kosten sind ganze Zahlen (Meter, Euro): so laufen alle Warteschlangen, auch die Dial-Buckets, auf denselben Netzen."""
 
 import json
 import math
