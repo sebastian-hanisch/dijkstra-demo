@@ -438,7 +438,7 @@ with st.expander("📐 Mathematische Formulierung"):
 | $S$ | Menge der endgültig festgelegten Knoten |
 | $u$, $y$ | gerade festgelegter Knoten bzw. erster Knoten außerhalb von $S$ auf einer billigsten Route zu $u$ |
 | $\lvert V\rvert$, $\lvert E\rvert$ | Zahl der Knoten bzw. Kanten |
-| $C$ | größte Kantenkosten (nur für die Dial-Eimer-Warteschlange) |
+| $C$ | größte Kantenkosten (nur für die Dial-Bucket-Warteschlange) |
 | $L$ | Kostenradius um den Start (Experiment zur Suchfläche) |
 
 [Schritt für Schritt erklärt, mit Herleitung und Literatur](https://sebastianhanisch.net/dijkstra-erklaert.html#fachleute)
