@@ -106,7 +106,7 @@ with st.expander("So funktioniert Dijkstra", expanded=True):
     st.markdown(
         """
 1. **Start:** der Start hat die vorläufige Entfernung 0, alle anderen ∞. Ein Knoten ist zunächst *unbekannt*.
-2. **Festlegen:** unter den Knoten in der **Warteschlange** (vorläufige Entfernung bekannt, noch nicht festgelegt) kommt der mit der kleinsten Entfernung dran. Seine Entfernung ist jetzt **endgültig**: jede andere Route zu ihm müsste über einen Knoten
+2. **Festlegen:** unter den Knoten in der **Prioritätswarteschlange** (Priority Queue; vorläufige Entfernung bekannt, noch nicht festgelegt) kommt der mit der kleinsten Entfernung dran. Seine Entfernung ist jetzt **endgültig**: jede andere Route zu ihm müsste über einen Knoten
    führen, der noch weiter weg ist - und mit nichtnegativen Kosten kann eine Route nicht billiger werden, wenn man Kanten anhängt.
 3. **Verbessern:** für jeden Nachbarn wird Entfernung + Kantenkosten berechnet; ist das kleiner als seine bisherige Entfernung, merkt er sich die neue Entfernung und den Vorgänger.
 4. **Ziel:** sobald das Ziel festgelegt ist, endet die Suche; die Route ergibt sich rückwärts über die Vorgänger.
@@ -398,7 +398,7 @@ if st.button("Ein Netz mit Parallelkanten auf vier Arten lösen", key="raw_start
 if st.session_state.get("raw_on"):
     rt = _raw_trap()
     st.markdown("**Rohdaten** (von → nach: Kosten): " + ", ".join(f"{'ABC'[u]} → {'ABC'[v]}: {c:g}" for u, v, c in RAW_TRAP_ARCS) + ". A → B gibt es doppelt (5 und 1), B → B ist eine Schleife.")
-    st.table({"Umsetzung": ["Mehrfachkanten-Graph (alle Kanten bleiben)", "bereinigt (billigste Parallelkante, Schleife weg)", "Wörterbuch, letzte Kante gewinnt", "Wörterbuch, erste Kante gewinnt"],
+    st.table({"Umsetzung": ["Multigraph (alle Kanten bleiben)", "bereinigt (billigste Parallelkante, Schleife weg)", "Wörterbuch, letzte Kante gewinnt", "Wörterbuch, erste Kante gewinnt"],
               "Kosten A nach C": [f"{rt['multigraph']:g}", f"{rt['cleaned']:g}", f"{rt['dict_last_wins']:g}", f"{rt['dict_first_wins']:g}"]})
     st.caption("Karten-Rohdaten (OpenStreetMap) enthalten Parallelkanten und Schleifen. Ein Graph, der alle Kanten kennt, oder ein bereinigter liefert 3. Eine Umsetzung mit einem Wörterbuch je Knotenpaar kennt nur **eine** der Kanten - "
                "welche, hängt von der Reihenfolge der Rohdaten ab, und das Ergebnis schwankt zwischen 3 und 7. Deshalb bereinigt diese Demo die Toronto-Daten vorab (billigste Parallelkante, keine Schleifen).")

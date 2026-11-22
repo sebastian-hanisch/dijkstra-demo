@@ -44,7 +44,7 @@ Aus den Büchern stammt nur die Idee der Beispiele; Text, Abbildungen, Code, Gra
 | Tausch mit Rückzahlung | ❌ Dijkstra findet **16 Euro**, die beste Route kostet **13** (23 % zu viel); der Alarm zeigt, wo die Festlegung nicht endgültig war |
 | Negative Kanten in Zufallsnetzen | ❌ Ohne negative Kanten nie falsch; bei **2 %** negativer Kanten liefert Dijkstra in etwa jedem fünften Netz (20 %) falsche Kosten, mit vielen negativen Kanten überwiegen negative Zyklen (200 Netze je Anteil mit je 40 Knoten und 120 Kanten, 5 feste Datensätze) |
 | Warteschlangen | ✅ fünf Umsetzungen, dieselben Entfernungen: **Feld**, **Binärheap** (Decrease-Key), **faul** (`heapq`), **Dial-Buckets**, **Fibonacci-Heap**. Jeder Knoten wird einmal eingefügt, etwa jeder zweite bekommt einen Decrease-Key. Fibonacci braucht rund 17 % weniger Schlüsselvergleiche als der Binärheap, ist aber in dieser Python-Umsetzung nicht spürbar schneller (Laufzeiten sind Messwerte, nicht getestet); das Feld wächst hier wie n hoch 1.5 (Knoten mal Front), die Heaps kaum stärker als linear |
-| Rohdaten-Falle | ⚠️ ein Netz mit Parallelkanten: Mehrfachkanten-Graph und bereinigte Daten liefern 3; ein Wörterbuch je Knotenpaar 3 oder **7**, je nach Reihenfolge der Rohdaten |
+| Rohdaten-Falle | ⚠️ ein Netz mit Parallelkanten: Multigraph und bereinigte Daten liefern 3; ein Wörterbuch je Knotenpaar 3 oder **7**, je nach Reihenfolge der Rohdaten |
 
 Die Breitensuche als Vergleich ist die aus der Breitensuche-Demo; die Bellman-Ford-Referenz für negative Kanten ist nur ein Messwerkzeug (das Verfahren selbst ist ein eigenes Stück der Linie).
 
